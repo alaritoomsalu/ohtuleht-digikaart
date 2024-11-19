@@ -1,40 +1,32 @@
 package com.pooltoon.web;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.concurrent.locks.ReentrantLock;
 
 @WebServlet("/count-wish")
 public class WishCounterServlet extends HttpServlet {
 
-    private static final Path FILE_PATH = Path.of("data/wish_count.txt");
-    private final ReentrantLock lock = new ReentrantLock();
+    private static final Path FILE_PATH = Path.of("wish_count.txt");
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        lock.lock();
-        try {
-            // Read the current count
-            long count = Long.parseLong(Files.readString(FILE_PATH).trim());
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        if (!Files.exists(FILE_PATH)) {
+            Files.createFile(FILE_PATH);
+            Files.writeString(FILE_PATH, "0", StandardOpenOption.WRITE);
+        }
 
-            // Increment and write back
+        synchronized (this) { // Optional synchronization for thread-safety
+            long count = Long.parseLong(Files.readString(FILE_PATH).trim());
             count++;
             Files.writeString(FILE_PATH, String.valueOf(count), StandardOpenOption.WRITE);
-
-            // Respond with the updated count
             resp.setContentType("application/json");
             resp.getWriter().write("{\"totalWishes\":" + count + "}");
-        } catch (IOException e) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Failed to update wish count");
-        } finally {
-            lock.unlock();
         }
     }
 }
