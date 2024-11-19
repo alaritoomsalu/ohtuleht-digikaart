@@ -16,9 +16,8 @@ public class WishCounterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setHeader("Access-Control-Allow-Origin", "https://ohtuleht-digikaart.netlify.app");
-        resp.setHeader("Access-Control-Allow-Methods", "POST");
-        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        // Set CORS headers for POST request
+        setCorsHeaders(resp);
 
         if (!Files.exists(FILE_PATH)) {
             Files.createFile(FILE_PATH);
@@ -32,5 +31,18 @@ public class WishCounterServlet extends HttpServlet {
             resp.setContentType("application/json");
             resp.getWriter().write("{\"totalWishes\":" + count + "}");
         }
+    }
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // Set CORS headers for OPTIONS pre-flight request
+        setCorsHeaders(resp);
+        resp.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    private void setCorsHeaders(HttpServletResponse resp) {
+        resp.setHeader("Access-Control-Allow-Origin", "https://ohtuleht-digikaart.netlify.app");
+        resp.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
     }
 }
