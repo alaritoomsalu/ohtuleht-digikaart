@@ -9,10 +9,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("https://ohtuleht-digikaart.netlify.app") // Allow requests from your Netlify app
-                .allowedMethods("GET", "POST", "PUT", "DELETE") // Allow specific HTTP methods
-                .allowedHeaders("*") // Allow any headers
-                .allowCredentials(true); // Allow credentials if needed
+        registry.addMapping("/**") // Apply to all endpoints
+                .allowedOrigins("https://ohtuleht-digikaart.netlify.app") // Your Netlify URL
+                .allowedMethods("GET", "POST", "PUT", "DELETE") // Allow common HTTP methods
+                .allowedHeaders("*") // Allow all headers
+                .allowCredentials(true); // If you need to send cookies or authentication
     }
 }

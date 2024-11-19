@@ -16,6 +16,10 @@ public class WishCounterServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setHeader("Access-Control-Allow-Origin", "https://ohtuleht-digikaart.netlify.app");
+        resp.setHeader("Access-Control-Allow-Methods", "POST");
+        resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
         if (!Files.exists(FILE_PATH)) {
             Files.createFile(FILE_PATH);
             Files.writeString(FILE_PATH, "0", StandardOpenOption.WRITE);
