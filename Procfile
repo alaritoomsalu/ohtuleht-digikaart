@@ -1,1 +1,1 @@
-web: java -jar target/ohtuleht-digikaart-1.0-SNAPSHOT.jar
+web: java -Dserver.port=$PORT -jar target/ohtuleht-digikaart-1.0-SNAPSHOT.jar
