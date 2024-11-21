@@ -8,6 +8,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/count-wish")
+@CrossOrigin(origins = "https://ohtuleht-digikaart.netlify.app", allowCredentials = "true")
 public class WishCounterController {
 
     private final WishCounterService wishCounterService;
