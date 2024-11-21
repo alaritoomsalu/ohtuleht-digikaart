@@ -10,9 +10,11 @@ async function sendWish() {
 
     alert("Loodame, et su soov täitub!");
 
-    /*
+
     try {
         const response = await fetch("http://localhost:8080/count-wish", {
+            mode: "cors",
+            credentials: "include",
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -34,10 +36,11 @@ async function sendWish() {
         console.error("Error while sending wish:", error);
         alert("Serveriga ühendamine ebaõnnestus!");
     }
-    */
 
+    /*
     // Clear textarea and switch cards
     document.querySelector(".input-field").value = "";
     document.querySelector(".first-card").classList.add("hidden");
     document.querySelector(".second-card").classList.remove("hidden");
+    */
 }

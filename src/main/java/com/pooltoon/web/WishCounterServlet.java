@@ -19,17 +19,19 @@ public class WishCounterServlet extends HttpServlet {
         // Set CORS headers for POST request
         setCorsHeaders(resp);
 
+        // Check if the wish_count.txt exists
         if (!Files.exists(FILE_PATH)) {
             Files.createFile(FILE_PATH);
             Files.writeString(FILE_PATH, "0", StandardOpenOption.WRITE);
         }
 
-        synchronized (this) { // Optional synchronization for thread-safety
+        synchronized (this) { // Synchronization for thread-safety
             long count = Long.parseLong(Files.readString(FILE_PATH).trim());
             count++;
             Files.writeString(FILE_PATH, String.valueOf(count), StandardOpenOption.WRITE);
+            // JSON response to client
             resp.setContentType("application/json");
-            resp.getWriter().write("{\"totalWishes\":" + count + "}");
+            resp.getWriter().write("{\"totalWishes\": " + count + "}");
         }
     }
 
@@ -44,5 +46,7 @@ public class WishCounterServlet extends HttpServlet {
         resp.setHeader("Access-Control-Allow-Origin", "https://ohtuleht-digikaart.netlify.app");
         resp.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
         resp.setHeader("Access-Control-Allow-Headers", "Content-Type");
+        resp.setHeader("Access-Control-Allow-Credentials", "true");
+        resp.setHeader("Access-Control-Allow-Private-Network", "true");
     }
 }
