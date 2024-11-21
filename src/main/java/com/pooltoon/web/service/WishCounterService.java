@@ -1,28 +1,36 @@
 package com.pooltoon.web.service;
 
-import com.pooltoon.web.entity.WishCount;
-import com.pooltoon.web.repository.WishCountRepository;
-import org.springframework.stereotype.Service;
+import com.pooltoon.web.entity.WishCounter;
+import com.pooltoon.web.repository.WishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class WishCounterService {
 
-    private final WishCountRepository repository;
+    private final WishRepository wishRepository;
 
     @Autowired
-    public WishCounterService(WishCountRepository repository) {
-        this.repository = repository;
+    public WishCounterService(WishRepository wishRepository) {
+        this.wishRepository = wishRepository;
     }
 
     public synchronized Long incrementWishCount() {
-        // Fetch the wish count record (ID 1)
-        WishCount wishCount = repository.findById(1L).orElse(new WishCount(1L, 0L));
+        WishCounter counter = wishRepository.findById(1L).orElse(new WishCounter(1L, 0L));
+        counter.setCount(counter.getCount() + 1);
+        wishRepository.save(counter);
+        return counter.getCount();
+    }
 
-        // Increment and save the count
-        wishCount.setCount(wishCount.getCount() + 1);
-        repository.save(wishCount);
+    // Get the current counter value
+    public synchronized Long getCurrentCount() {
+        return wishRepository.findById(1L).map(WishCounter::getCount).orElse(0L);
+    }
 
-        return wishCount.getCount();
+    // Reset the counter to 0
+    public synchronized void resetCounter() {
+        WishCounter counter = wishRepository.findById(1L).orElse(new WishCounter(1L, 0L));
+        counter.setCount(0L);
+        wishRepository.save(counter);
     }
 }
