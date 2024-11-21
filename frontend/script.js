@@ -8,8 +8,11 @@ async function sendWish() {
         return;
     }
 
+    alert("Loodame, et su soov täitub!");
+
+    /*
     try {
-        const response = await fetch("https://ohtuleht-digikaart-c2f2856dfe57.herokuapp.com/count-wish", {
+        const response = await fetch("http://localhost:8080/count-wish", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -21,6 +24,7 @@ async function sendWish() {
             return;
         }
 
+
         // Clear textarea and switch cards
         document.querySelector(".input-field").value = "";
         document.querySelector(".first-card").classList.add("hidden");
@@ -30,4 +34,10 @@ async function sendWish() {
         console.error("Error while sending wish:", error);
         alert("Serveriga ühendamine ebaõnnestus!");
     }
+    */
+
+    // Clear textarea and switch cards
+    document.querySelector(".input-field").value = "";
+    document.querySelector(".first-card").classList.add("hidden");
+    document.querySelector(".second-card").classList.remove("hidden");
 }
