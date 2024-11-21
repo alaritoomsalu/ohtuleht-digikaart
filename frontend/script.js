@@ -12,7 +12,7 @@ async function sendWish() {
 
 
     try {
-        const response = await fetch("https://ohtuleht-digikaart.onrender.com:8080/count-wish", {
+        const response = await fetch("https://ohtuleht-digikaart.onrender.com/count-wish", {
             mode: "cors",
             credentials: "include",
             method: "POST",
