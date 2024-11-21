@@ -1,2 +1,5 @@
-com\pooltoon\web\WishCounterServlet.class
+com\pooltoon\web\entity\WishCount.class
+com\pooltoon\web\repository\WishCountRepository.class
+com\pooltoon\web\controller\WishCounterController.class
 com\pooltoon\web\WishCounterApplication.class
+com\pooltoon\web\service\WishCounterService.class
