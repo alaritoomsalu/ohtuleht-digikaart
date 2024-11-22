@@ -7,11 +7,17 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Wish Counter</h1>
-  <div id="counter">Loading...</div>
-  <button id="resetButton">Reset Counter</button>
-  <div class="message" id="successMessage"></div>
-  <div class="error" id="errorMessage"></div>
+<div id="counter-view">
+  <h1>Soovide loendaja</h1>
+  <p>Soove saadetud: <span id="counter">0</span></p>
+  <button id="reset-button">Reset</button>
+</div>
+
+<div id="confirmation-dialog" style="display: none;">
+  <p>Soovide lugeja nullitakse.<br>Eelnevalt loetud soovide arv kaob.<br>Kui soovid jätkata, vajuta nuppu 'Kinnita'.<br>Katkestamiseks vajuta nuppu 'Katkesta'.</p>
+  <button id="confirm-reset">Kinnita</button>
+  <button id="cancel-reset">Katkesta</button>
+</div>
 
   <script src="script.js"></script>
 </body>

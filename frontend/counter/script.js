@@ -1,45 +1,50 @@
-const backendUrl = "https://ohtuleht-digikaart.onrender.com";
+const apiUrl = "https://your-backend-url.com/count-wish";
 
-// Function to fetch the current counter value
+const counterView = document.getElementById("counter-view");
+const counterElement = document.getElementById("counter");
+const resetButton = document.getElementById("reset-button");
+const confirmationDialog = document.getElementById("confirmation-dialog");
+const confirmResetButton = document.getElementById("confirm-reset");
+const cancelResetButton = document.getElementById("cancel-reset");
+
+// Fetch the current counter value
 async function fetchCounter() {
     try {
-        const response = await fetch(`${backendUrl}/count-wish/counter`);
-        if (!response.ok) {
-            throw new Error("Failed to fetch counter.");
-        }
+        const response = await fetch(`${apiUrl}/counter`);
         const data = await response.json();
-        document.getElementById("counter").textContent = `Total Wishes: ${data.totalWishes}`;
+        counterElement.textContent = data.totalWishes;
     } catch (error) {
-        console.error(error);
-        document.getElementById("counter").textContent = "Error loading counter.";
+        console.error("Failed to fetch counter:", error);
     }
 }
 
-// Function to reset the counter
-async function resetCounter() {
-    document.getElementById("successMessage").textContent = "";
-    document.getElementById("errorMessage").textContent = "";
+// Show confirmation dialog
+resetButton.addEventListener("click", () => {
+    confirmationDialog.style.display = "block";
+    counterView.style.display = "none"
+});
+
+// Handle reset confirmation
+confirmResetButton.addEventListener("click", async () => {
     try {
-        const response = await fetch(`${backendUrl}/count-wish/counter/reset`, {
+        const response = await fetch(`${apiUrl}/counter/reset`, {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
         });
-        if (!response.ok) {
-            throw new Error("Failed to reset counter.");
-        }
         const data = await response.json();
-        document.getElementById("successMessage").textContent = data.message;
-        await fetchCounter(); // Refresh the counter display
+        alert(data.message); // Display reset success message
+        await fetchCounter(); // Update the counter
     } catch (error) {
-        console.error(error);
-        document.getElementById("errorMessage").textContent = "Failed to reset counter.";
+        console.error("Failed to reset counter:", error);
     }
-}
+    confirmationDialog.style.display = "none";
+    counterView.style.display = "block";
+});
 
-// Attach event listener to the reset button
-document.getElementById("resetButton").addEventListener("click", resetCounter);
+// Handle reset cancellation
+cancelResetButton.addEventListener("click", () => {
+    confirmationDialog.style.display = "none";
+    counterView.style.display = "block";
+});
 
-// Load the counter on page load
+// Fetch counter on page load
 fetchCounter();
