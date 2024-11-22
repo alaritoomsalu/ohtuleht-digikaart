@@ -1,4 +1,4 @@
-const apiUrl = "https://your-backend-url.com/count-wish";
+const apiUrl = "https://ohtuleht-digikaart.onrender.com/count-wish";
 
 const counterView = document.getElementById("counter-view");
 const counterElement = document.getElementById("counter");
